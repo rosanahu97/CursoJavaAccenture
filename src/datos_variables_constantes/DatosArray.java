@@ -1,4 +1,4 @@
-package Datos_variables_constantes;
+package datos_variables_constantes;
 import java.util.Arrays;
 
 public class DatosArray {
@@ -18,6 +18,8 @@ public class DatosArray {
 				array[i][j]=numero;
 				numero++;
 				
+			}else {
+				break;
 			}
 		}
 

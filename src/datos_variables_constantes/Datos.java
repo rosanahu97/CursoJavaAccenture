@@ -1,4 +1,4 @@
-package Datos_variables_constantes;
+package datos_variables_constantes;
 
 public class Datos {
 		public static void main(String[] args) {

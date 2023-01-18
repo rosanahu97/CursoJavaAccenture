@@ -1,6 +1,6 @@
-package Sintaxis;
+package sintaxis;
 
-public class Nombre3 {
+public class Nombre2 {
 
 	public static void main(String[] args) {
 		int $nombre;
@@ -16,7 +16,6 @@ public class Nombre3 {
 		 PasaDo=_contador;
 
 		 System.out.println($nombre + " / " + _contador);
-		 System.out.println("En \"Java\" puede\n que tengamos que utilizar\n caracteres especiales");
 
 	}
 
