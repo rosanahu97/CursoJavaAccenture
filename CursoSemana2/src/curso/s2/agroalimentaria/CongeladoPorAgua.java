@@ -1,4 +1,4 @@
-package curso.s2.herencia.agroalimentaria;
+package curso.s2.agroalimentaria;
 
 public class CongeladoPorAgua extends ProductoCongelado{
 	private int salinidad;

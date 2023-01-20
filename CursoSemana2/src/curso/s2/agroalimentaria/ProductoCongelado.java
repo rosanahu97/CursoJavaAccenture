@@ -1,4 +1,4 @@
-package curso.s2.herencia.agroalimentaria;
+package curso.s2.agroalimentaria;
 
 public class ProductoCongelado extends Producto{
 	private double temperatura;

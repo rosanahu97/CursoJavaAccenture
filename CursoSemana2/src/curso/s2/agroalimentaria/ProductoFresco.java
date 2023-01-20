@@ -1,4 +1,4 @@
-package curso.s2.herencia.agroalimentaria;
+package curso.s2.agroalimentaria;
 
 public class ProductoFresco extends Producto{
 	private String fechaEnv;
