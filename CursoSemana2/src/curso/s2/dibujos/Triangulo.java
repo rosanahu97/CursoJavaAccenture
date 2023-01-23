@@ -6,36 +6,23 @@ public class Triangulo extends Figuras{
 	private double base;
 	private double altura;
 	//constructor con parametros
-	public Triangulo(int x, int y,double b,double alt) {
-		super(x, y);
-		this.setAltura(alt);
-		this.setBase(b);
+	public Triangulo(int x, int y,int b,int alt) {
+		super(x, y,alt,b);
 		
 	}
 
 
 	@Override
 	void dibujar() {
-		System.out.println("Dibujando triangulo con base = "+this.getBase()+", altura = "+this.getAltura());
+		System.out.println("Dibujando triangulo con base = "+getLargo()+", altura = "+getAncho());
 			
 	}
 	@Override
 	double calcularArea() {
 		
-		return (this.getAltura()*this.getBase())/2;
+		return (getLargo()*getAncho())/2;
 	}
 	
-	public double getBase() {
-		return base;
-	}
-	public void setBase(double base) {
-		this.base = base;
-	}
-	public double getAltura() {
-		return altura;
-	}
-	public void setAltura(double altura) {
-		this.altura = altura;
-	}
+	
 	
 }
