@@ -1,4 +1,4 @@
-package curso.s2.dibujos;
+package curso.s2.figuras;
 
 public class PruebaFiguras {
 
@@ -18,6 +18,11 @@ public class PruebaFiguras {
 		double areaCirculo = f3.calcularArea();
 		System.out.println("El area del circulo es: "+areaCirculo);
 		f3.dibujar();
+		
+		
+		//Prueba de la inclusion de la clase Punto
+		f3.getPunto();
+		
 
 	}
 

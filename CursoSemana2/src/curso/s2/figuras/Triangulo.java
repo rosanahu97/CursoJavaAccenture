@@ -1,4 +1,4 @@
-package curso.s2.dibujos;
+package curso.s2.figuras;
 
 public class Triangulo extends Figuras{
 	

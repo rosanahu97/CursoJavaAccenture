@@ -1,4 +1,4 @@
-package curso.s2.dibujos;
+package curso.s2.figuras;
 
 public abstract class Figuras {
 	// definir las coordenadas del dibujo
@@ -8,10 +8,17 @@ public abstract class Figuras {
 	private int ancho;
 	private int largo;
 	private int ratio;
+	//definir una variable de clase Punto
+	private Punto punto;
+	private Texto text;
 		
 	public Figuras (int x, int y,int a,int l) {
 		setCoordenadaX(x);
 		setCoordenadaY(y);
+		//crear un punto con la coordenada recibida
+		punto = new Punto(x,y);
+		text = new Texto("Titulo1","Descripcion...");
+
 		setAncho(a);
 		setLargo(l);
 		
@@ -26,6 +33,23 @@ public abstract class Figuras {
 	 */
 	abstract double calcularArea();
 	
+	
+	public Texto getText() {
+		return text;
+	}
+
+	public void setText(Texto text) {
+		this.text = text;
+	}
+
+	public Punto getPunto() {
+		return punto;
+	}
+
+	public void setPunto(Punto punto) {
+		this.punto = punto;
+	}
+
 	public int getCoordenadaX() {
 		return coordenadaX;
 	}
