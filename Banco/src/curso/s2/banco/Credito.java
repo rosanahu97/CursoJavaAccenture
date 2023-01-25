@@ -33,7 +33,8 @@ public class Credito extends Tarjeta {
 		}
 		return res;
 	}
-
+	
+	
 	@Override
 	public void ingresar(double x) {
 		if(x<=0) {
@@ -78,12 +79,14 @@ public class Credito extends Tarjeta {
 			
 			
 		}*/
+		
+		if(importe<0) {
+			throw new SaldoIncorrectoException("Error, saldo negativo despues de la liquidacion ");
+		}
+		
 		//añadir el movimiento a la lista de la clase cuenta
-		Movimiento m1 = new Movimiento();
-		m1.setmConcepto("Liquidacion a fecha de: "+LocalDate.now());
-		m1.setmFecha(LocalDate.now());
-		m1.setmImporte(importe);
-		getmCuentaAsociada().addMovimiento(m1);
+		
+		getmCuentaAsociada().addMovimiento("Liquidacion a fecha de: "+LocalDate.now(),importe);
 		
 		
 	}

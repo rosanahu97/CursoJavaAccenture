@@ -26,11 +26,8 @@ public class Debito extends Tarjeta{
 
 	@Override
 	public void pagoEnEstablecimiento(String datos, double x) {
-		Movimiento m = new Movimiento();
-		m.setmImporte(-x);
-		m.setmConcepto("Compras con tarjeta debito en "+datos);
-		m.setmFecha(LocalDate.now());
-		getmCuentaAsociada().addMovimiento(m);
+		
+		getmCuentaAsociada().addMovimiento("Compras con tarjeta debito en "+datos,-x);
 		
 	}
 
