@@ -6,8 +6,8 @@ import java.util.List;
 
 import curso.s2.banco.exceptions.SaldoIncorrectoException;
 import curso.s2.banco.exceptions.ErrorFiltroException;
-import curso.s2.banco.util.Filtro;
 import curso.s2.banco.util.FiltroBanco;
+import curso.s2.banco.util.Filtros;
 
 public class Cuenta {
 
@@ -16,11 +16,12 @@ public class Cuenta {
 	private String mTitular;
 	private final static int TITULO_MAX=30;
 	private final static int TITULO_MIN=5;
+	private Filtros filtro;
 	
-	public Cuenta(String mNumero, String mTitular) {
-		super();
+	public Cuenta(String mNumero, String mTitular,Filtros fil) {
+		filtro = fil;
 		//Comprobar la longitud del parametro mTitular
-		if(!Filtro.validarNombre(mTitular, TITULO_MIN, TITULO_MAX)) {
+		if(!filtro.validarNombre(mTitular, TITULO_MIN, TITULO_MAX)) {
 			throw new ErrorFiltroException("El longitud del nombre incorrecto");
 		}
 		mTitular = mTitular;
@@ -43,9 +44,10 @@ public class Cuenta {
 	
 	public double getSaldo() {
 		double res =0;
-		for(Movimiento m : mMovimientos) {
+		/*for(Movimiento m : mMovimientos) {
 			res +=m.getmImporte();
-		}
+		}*/
+		res =mMovimientos.stream().map(m->m.getmImporte()).mapToDouble(m->m).sum();
 		return res;
 		
 	}
@@ -97,6 +99,14 @@ public class Cuenta {
 	public String toString() {
 		return "Cuenta: " + ", mNumero=" + mNumero + ", mTitular=" + mTitular +"\n"+ 
 				mMovimientos.toString();
+	}
+
+	public Filtros getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(Filtros filtro) {
+		this.filtro = filtro;
 	}
 	
 	

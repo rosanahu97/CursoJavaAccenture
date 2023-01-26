@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import curso.s2.banco.exceptions.SaldoIncorrectoException;
 
@@ -54,17 +55,31 @@ public class Credito extends Tarjeta {
 		List<Movimiento> aux = new ArrayList<>();
 		
 		double importe =0;
-		for(Movimiento m : mMovimiento) {
+		/*for(Movimiento m : mMovimiento) {
 			LocalDate fecha = m.getmFecha();
 			int month=fecha.getMonthValue();
 			int year =fecha.getYear();
 			if(month==mes && year ==anyo) {
 				importe += m.getmImporte();
 				aux.add(m);
-			}
-		}
+			}		
+		}*/
+		
+		importe = mMovimiento.stream()
+		.filter(m->m.getmFecha().getYear()==anyo)
+		.filter(m->m.getmFecha().getMonthValue()==mes)
+		.mapToDouble(m->m.getmImporte())
+		.sum();
+		
+		aux =	mMovimiento.stream()
+				.filter(m->!(m.getmFecha().getYear()==anyo))
+				.filter(m->!(m.getmFecha().getMonthValue()==mes))
+				.collect(Collectors.toList());
+	
+		this.setmMovimiento(aux);
+		
 		//borro esos movimientos de la lista
-		mMovimiento.removeAll(aux);
+		//mMovimiento.removeAll(aux);
 		
 		/*
 		for(Iterator it = mMovimiento.iterator();it.hasNext();) {

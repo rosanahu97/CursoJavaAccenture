@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import curso.s2.banco.exceptions.ErrorFiltroException;
 import curso.s2.banco.exceptions.SaldoIncorrectoException;
+import curso.s2.banco.util.Filtros;
+import curso.s2.banco.util.FiltroCastellano;
 
 class CuentaTest {
 
@@ -25,17 +27,19 @@ class CuentaTest {
 	final double INGRESO2 = 500.0;
 	final double RETIRAR_ERROR = -2000;
 	final double RETIRAR =50;
+	private Filtros filtro;
 	
 	@BeforeEach
 	
 	void inicio() {
-		cuenta = new Cuenta(NCUENTA, TCUENTA);
+		filtro = new FiltroCastellano();
+		cuenta = new Cuenta(NCUENTA, TCUENTA,filtro);
 	}
 		
 	@Test
 	void testCuenta() {
 		Assertions.assertThrows(ErrorFiltroException.class,
-				()-> new Cuenta(NCUENTA,TITULAR_ERROR));
+				()-> new Cuenta(NCUENTA,TITULAR_ERROR,filtro));
 	}
 
 	@Test

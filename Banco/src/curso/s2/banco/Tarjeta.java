@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 import curso.s2.banco.exceptions.SaldoIncorrectoException;
 import curso.s2.banco.exceptions.ErrorFiltroException;
-import curso.s2.banco.util.Filtro;
+import curso.s2.banco.util.FiltroCastellano;
+import curso.s2.banco.util.Filtros;
 
 
 public abstract class Tarjeta {
@@ -13,10 +14,12 @@ public abstract class Tarjeta {
 	private LocalDate mFechaDeCaducidad;
 	private String mNumero;
 	private String mTitular;
+	private Filtros filtro;
 
 	
 	public Tarjeta(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) {
-		if(!Filtro.validarFechaCad(mFechaDeCaducidad)) {
+		filtro = new FiltroCastellano();
+		if(!filtro.validarFechaCad(mFechaDeCaducidad)) {
 			throw new ErrorFiltroException("Error, fecha de caducidad incorrecta");
 		}
 		this.mFechaDeCaducidad = mFechaDeCaducidad;
