@@ -43,6 +43,7 @@ public class PruebaBanco {
 	
 		ListarMovimientos.verMovimientos(miCuenta.getmMovimientos());
 
+	
 	}
 	
 	

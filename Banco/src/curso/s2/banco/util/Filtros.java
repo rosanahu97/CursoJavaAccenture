@@ -1,6 +1,8 @@
 package curso.s2.banco.util;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public interface Filtros {
 	public final static int ANNOMIN =3;
@@ -32,6 +34,21 @@ public interface Filtros {
 	}
 	
 	
-	public LocalDate validarFecha(LocalDate fecha);
-	public LocalDate validarFecha(LocalDate fecha,String formato);
+	public LocalDate validarFecha(String fecha);
+	
+	public default LocalDate validarFecha(String fecha, String formato) {
+		
+		LocalDate resFecha=null;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(formato);
+	try {
+				resFecha = LocalDate.parse(fecha,dtf);
+				System.out.println(resFecha.toString());
+				
+	
+	}catch(DateTimeParseException e) {
+			System.out.println("Error,no se puede pasar el string a Date");
+	}
+
+		return resFecha;
+	}
 }
