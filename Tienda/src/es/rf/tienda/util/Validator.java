@@ -48,6 +48,11 @@ public class Validator {
 	 * Longitud que debe tener todo DNI pasado a la aplicaci�n.
 	 */
 	private final static int LONGITUD_DNI = 12;
+	
+	/**
+	 *Patron para validar el codigo de producto 
+	 */
+	private final static String CODIGO_PATTERN ="^[A-Z]{2}[0-9]{3}";
 
 	/* ***************************************************************************************
 	 * NOMBRE: isAlfanumeric                                                                 *
@@ -66,6 +71,24 @@ public class Validator {
 	 * **************************************************************************************/
 	public static boolean isAlfanumeric(String texto){
 		return !isVacio(texto)&&texto.matches(ALFANUMERIC_PATTERN);
+	}
+	/* ***************************************************************************************
+	 * NOMBRE: isCodigoValido                                                                *
+	 * 
+	 * DESCRIPCI�N: *//**
+	 * 		Permite verificar que el codigo generado es correcto 
+	 * 
+	 * @param codigo String a verificar 
+	 * 
+	 * @return  true, si cumple solo contiene dos letras y tres numeros. <br> 
+	 * 			false en caso contrario
+	 * FECHA: Enero 2023
+	 * 
+	 * AUTOR: Yuqian Hu
+	 * 
+	 * **************************************************************************************/
+	public static boolean isCodigoValido(String texto){
+		return !isVacio(texto)&&texto.matches(CODIGO_PATTERN);
 	}
 	
 	public static boolean isVacio( String prueba ){
@@ -128,11 +151,10 @@ public class Validator {
 		if(!isVacio(dni)) {
 		if(dni.matches(DNI_PATTERN )&& dni.length()==LONGITUD_DNI) {
 			//extraer la parte numerica del string
-			String parteNumerica = dni.substring(0, (dni.length()-2)).replace(".", "");
-			//extraer la parte letra del string
-			char letra = dni.charAt(LONGITUD_DNI-1);
+			String parteNumerica = dni.substring(0, (dni.length()-2)).replace(".", "");	
 			int numerica = Integer.parseInt(parteNumerica);
-			if(LETRA_DNI.charAt(numerica%23)==letra) {
+			//comprobar la ultima letra 
+			if(LETRA_DNI.charAt(numerica%23)==dni.toUpperCase().charAt(LONGITUD_DNI-1)) {
 				return true;
 			}
 		}

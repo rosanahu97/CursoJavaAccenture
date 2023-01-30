@@ -37,7 +37,9 @@ class ValidatorTest {
 	final static String FECHA_NO_VALIDA="1209/2022";
 	final static String PASSWORD="1contRArsen@";
 	final static String PASSWORD_ERROR="1234k";
-	
+	final static String CODIGO="IN321";
+	final static String CODIGO_ERROR="IN3122";
+	final static String CODIGO_ERROR_2="in312";
 	
 	
 	@Test
@@ -49,6 +51,20 @@ class ValidatorTest {
 		Assertions.assertFalse(Validator.isAlfanumeric(ALFANUMERIC_ERROR));
 	}
 
+	
+	@Test
+	void testIsCodigoValido() {
+		Assertions.assertTrue(Validator.isCodigoValido(CODIGO));
+	}
+	@Test
+	void testIsCodigoValidoError() {
+		Assertions.assertFalse(Validator.isCodigoValido(CODIGO_ERROR));
+	}
+	@Test
+	void testIsCodigoValidoError_2() {
+		Assertions.assertFalse(Validator.isCodigoValido(CODIGO_ERROR_2));
+	}
+	
 	@Test
 	void testIsVacio() {
 		Assertions.assertTrue(Validator.isVacio(VACIO));
