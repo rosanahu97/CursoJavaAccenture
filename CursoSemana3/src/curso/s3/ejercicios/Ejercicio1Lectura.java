@@ -10,36 +10,27 @@ import java.util.StringJoiner;
 public class Ejercicio1Lectura {
 
 	public static void main(String[] args) {
-		//coger los datos por consola
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce su nombre: ");
-		String nombre = sc.next();
-		//sc.nextLine();
-		System.out.println("Introduce su apellido: ");
-		String apellido = sc.next();
-		//sc.nextLine();
-		//grabar los datos en un fichero llamado nombreApellido
-		FileWriter fichero = null;
-		PrintWriter pw = null;
-		try {
-			//crear el fichero 
-			fichero = new FileWriter("C:\\Users\\yuqian.hu\\OneDrive - Accenture\\Documents\\nombreApellido.txt");
-			pw = new PrintWriter(fichero);
-			pw.println("Nombre="+nombre);
-			pw.println("Apellido="+apellido);
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}finally {
-			//cierra el fichero en caso no nulo
-			try {
-				if (fichero!=null) {
-					fichero.close();
+		String nombre ="";
+		String apellido ="";
+		//leer los datos del fichero y imprimirlo por la consola
+		File fich = new File("C:\\Users\\yuqian.hu\\OneDrive - Accenture\\Documents\\nombreApellido.txt");
+		try(Scanner leerFichero = new Scanner(fich)){
+			leerFichero.useDelimiter("\n");
+			while(leerFichero.hasNext()) {
+				String cadena[]  = leerFichero.next().trim().split("=");
+				if(cadena[0].equals("Nombre")) {
+					nombre = cadena[1];
 				}
-			}catch(IOException e) {
-				e.printStackTrace();
+				if(cadena[0].equals("Apellido")) {
+					apellido = cadena[1];
+				}
 			}
-	}
+			System.out.println(nombre+" "+apellido);
+	}catch(IOException e) {
+			e.printStackTrace();
+		}
+
+
 		
 	
 }
