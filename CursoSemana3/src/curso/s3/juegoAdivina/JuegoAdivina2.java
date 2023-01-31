@@ -6,6 +6,9 @@ import java.util.Scanner;
 public class JuegoAdivina2 {
 	static int miNumero;
 	static boolean finJuego = false;
+	static boolean finPartido = false;
+	static int puntoUsuario =0;
+	static int puntoMaquina=0;
 	static int topeSup = 1000;
 	static int topeInf = 0;
 	static int nMaquina;
@@ -16,17 +19,52 @@ public class JuegoAdivina2 {
 		sc = new Scanner(System.in);
 		Random rn = new Random();
 		nMaquina = rn.nextInt(topeSup);
-		rMaquina = getRandomNumberInRange(topeInf, topeSup);
+		rMaquina = rn.nextInt(topeSup);
 		// mientras el numero introducido no es correcto, se repite el bucle
 
 		while (!finJuego) {
+
 			juegaMaquina();
 
-			if (!finJuego) {
+			if (!finPartido && !finJuego) {
 				juegoPartido();
 			}
+		//pregunta al usuario si quiere jugar otro partido o no
+			if(finPartido) {
+			System.out.println("Quieres jugar otro partido ?? S/N");
+			String respuesta =sc.next();
+			sc.nextLine();
+			//en caso negativo, se acaba el partido
+			if(respuesta.equals("N")) {
+				finJuego = true;
+				ganador();
+				System.out.println("Juego terminado");
+			}else {
+				//en caso positivo, restablecer los valores
+				topeSup = 1000;
+				topeInf = 0;
+				nMaquina = rn.nextInt(topeSup);
+				rMaquina = rn.nextInt(topeSup);
+				finPartido = false;
+				System.out.println("Partido nuevo");
+			}
 		}
+		}
+		
 
+	}
+
+	private static void ganador() {
+		if(puntoUsuario == puntoMaquina) {
+			System.out.println("Empate!!!");
+		}else if (puntoUsuario > puntoMaquina) {
+			System.out.println("El usuario ha ganado!!!");
+
+		}else {
+			System.out.println("La maquina ha ganado!!!");
+
+		}
+		
 	}
 
 	private static void juegaMaquina() {
@@ -34,17 +72,19 @@ public class JuegoAdivina2 {
 		System.out.println("M=El numero correcto es mayor, m = El numero correcto es  menor, f= Fin");
 		String miRespuesta = sc.next();
 		sc.nextLine();
+		//comprueba la respuesta del usuario
 		switch (miRespuesta) {
 		case "M":
 			topeInf = rMaquina;
-			rMaquina = getRandomNumberInRange(topeInf, topeSup);
+			rMaquina = (topeInf+topeSup)/2;
 			break;
 		case "m":
 			topeSup = rMaquina;
-			rMaquina = getRandomNumberInRange(topeInf, topeSup);
+			rMaquina = (topeInf+topeSup)/2;
 			break;
 		case "f":
-			finJuego = true;
+			finPartido = true;
+			puntoMaquina++;
 			System.out.println("Numero correcto!!!");
 			break;
 		}
@@ -55,9 +95,10 @@ public class JuegoAdivina2 {
 		miNumero = sc.nextInt();
 		sc.nextLine();
 		if (miNumero == nMaquina) {
+			puntoUsuario++;
 			System.out.println("Numero correcto!!!");
 			// sale del bucle
-			finJuego = true;
+			finPartido = true;
 		} else if (miNumero > nMaquina) {
 			System.out.println("El numero correcto es menor que " + miNumero);
 
@@ -65,20 +106,6 @@ public class JuegoAdivina2 {
 			System.out.println("El numero correcto es mayor que " + miNumero);
 
 		}
-	}
-/**
- *Metodo para generar un numero aleatorio entre min y max
- *@param min limite inferior
- *@param max limite superior
- *@return devuelve un valor entero 
- */
-	private static int getRandomNumberInRange(int min, int max) {
-		if (min >= max) {
-			throw new IllegalArgumentException("max must be greater than min");
-		}
-
-		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
 	}
 
 }
