@@ -7,15 +7,17 @@ public class Paquete {
 	private Set<Carta> cartas = new HashSet<>();
 	static final String POKER="POKER";
 	static final String BARAJA="BARAJA";
+	static final int NCARTA_POKER=13;
+	static final int NCARTA_BARAJA=12;
 	static final String[] PALOS_ESPAÑOLA = {"oro","copa","espada","basto"};
 	static final String[] PALOS_POKER = {"corazones","diamantes","trebol","picas"};
 	
 	
 	public Paquete (String tipo) {
 		if(tipo.equals(POKER)) {
-			crearCartas(PALOS_POKER);
+			crearCartas(PALOS_POKER,NCARTA_POKER);
 		}else if(tipo.equals(BARAJA)) {
-			crearCartas(PALOS_ESPAÑOLA);
+			crearCartas(PALOS_ESPAÑOLA,NCARTA_BARAJA);
 		}else {
 			System.out.println("Tipo incorrecto");
 		}
@@ -25,9 +27,10 @@ public class Paquete {
 	/**
 	 * Metodo para generar las cartas 
 	 */
-	public void crearCartas(String[] palos) {
+	public void crearCartas(String[] palos,int num) {
+		
 		for(int i =0;i<palos.length;i++) {
-			for(int j=1;j<13;j++) {
+			for(int j=1;j<=num;j++) {
 				Carta c = new Carta();
 				c.setNumero(j);
 				c.setPalo(palos[i]);

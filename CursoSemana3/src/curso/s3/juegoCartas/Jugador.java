@@ -33,6 +33,7 @@ public class Jugador {
 	public void addCarta(Carta c) {
 		mano.add(c);
 	}
+
 	
 	
 }

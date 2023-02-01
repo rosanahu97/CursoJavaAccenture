@@ -17,7 +17,16 @@ public class Carta {
 	}
 	@Override
 	public String toString() {
-		return "Carta [numero=" + numero + ", palo=" + palo + "]";
+		switch(numero) {
+		case 11: return "Carta [numero=J" + ", palo=" + palo + "]";
+		case 12: return "Carta [numero=Q" + ", palo=" + palo + "]";
+		case 13: return "Carta [numero=K" + ", palo=" + palo + "]";
+		case 1 : return "Carta [numero=As" + ", palo=" + palo + "]";
+		default :return "Carta [numero=" + numero + ", palo=" + palo + "]";
+		}
+		
+		
+		
 	}
 	
 	
