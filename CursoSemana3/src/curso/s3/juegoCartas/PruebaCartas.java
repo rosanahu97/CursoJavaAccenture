@@ -20,11 +20,7 @@ public class PruebaCartas {
 		repartirCartas(cartas,jugadores);
 		visualizar(jugadores);
 		analizarJugador(jugadores);
-		int b =5;
-		int c =8;
-		int a = b++ + ++c;
-		System.out.println("b"+b);
-		System.out.println(a);
+		
 
 	}
 	
