@@ -2,7 +2,9 @@ package curso.s3.juegoCartas;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class PruebaCartas {
 	static int CARTAS =5;
@@ -21,7 +23,6 @@ public class PruebaCartas {
 		visualizar(jugadores);
 		analizarJugador(jugadores);
 		
-
 	}
 	
 	
@@ -31,7 +32,7 @@ public class PruebaCartas {
 	 *@param un conjunto de jugadores 
 	 */
 	private static void analizarJugador(Set<Jugador> jug) {
-		jug.forEach(j->analizaJugador(j));	
+		jug.forEach(j->analizarJugador(j));	
 	}
 	
 	/**
@@ -39,17 +40,78 @@ public class PruebaCartas {
 	 *@param un jugador 
 	 */
 
-
-
-
-	private static void analizaJugador(Jugador j) {
+	private static void analizarJugador(Jugador j) {
 		Set<Carta> cartas = j.getMano();
+		TreeMap<Integer,Integer> map1_numero = new TreeMap<Integer,Integer>();
+		TreeMap<String,Integer> map2_palo = new TreeMap<String,Integer>();
 		
+		int numDescarte;
+		
+		for(Carta c :cartas) {
+			if(map1_numero.get(c.getNumero())==null) {
+				map1_numero.put(c.getNumero(), 1);
+			}else {
+				int res =map1_numero.get(c.getNumero());
+				map1_numero.put(c.getNumero(), ++res);
+			}
+		}
+		
+		for(Carta c :cartas) {
+			if(map2_palo.get(c.getPalo())==null) {
+				map2_palo.put(c.getPalo(), 1);
+			}else {
+				int res =map2_palo.get(c.getPalo());
+				map2_palo.put(c.getPalo(), ++res);
+			}
+		}
+		switch(map1_numero.size()) {
+			case 5: if(map2_palo.size()==1 && isEscalera(map1_numero)) {
+						System.out.println(j.getNombre()+" tiene escalera real o de color");
+					}else if(isEscalera(map1_numero)) {
+						System.out.println(j.getNombre()+" tiene escalera");
+					}else {
+						numDescarte =5;
+					}break;
+	
+			case 4:	System.out.println(j.getNombre()+" tiene una pareja");
+					numDescarte = 3;
+					break;
+			case 3:	if(isTrio(map1_numero)) {
+						System.out.print(j.getNombre()+" tiene trio ");
+						numDescarte = 2;
+					}else {
+						//si no es trio,entonces tiene que ser doble pareja
+						System.out.print(j.getNombre()+" tiene doble pareja");
+						numDescarte = 1;
+					}break;
+					
+			case 2:System.out.println(j.getNombre()+" tiene poker o fill");
+					numDescarte = 0;
+					break;
+			default: break;
+		}	
+
 	}
 	
 	
-	
 
+	private static boolean isTrio(TreeMap<Integer, Integer> map) {
+		for (Map.Entry m:map.entrySet()) {
+			int valor =(int)m.getValue();
+	          if(valor == 3) {
+	        	  return true;      	 
+	          }
+		}
+		return false;
+	}
+
+
+
+	private static boolean isEscalera(TreeMap<Integer, Integer> map) {
+		int primeroNumero = map.firstKey();
+		int ultimoNumero = map.lastKey();
+		return (ultimoNumero-primeroNumero)== 4;
+	}
 
 
 
