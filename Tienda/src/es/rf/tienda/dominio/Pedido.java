@@ -2,6 +2,9 @@ package es.rf.tienda.dominio;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+
+import es.rf.tienda.exception.DomainException;
+import es.rf.tienda.util.Validator;
 /**
  * 
  * Nombre		Pedido
@@ -58,7 +61,12 @@ public class Pedido {
 	public double getCar_precio() {
 		return car_precio;
 	}
-	public void setCar_precio(double car_precio) {
+	public void setCar_precio(double car_precio) throws DomainException {
+		String precio = String.valueOf(car_precio);
+		if(!Validator.isPrecioCorrecto(precio)) {
+			throw new DomainException("Precio formato incorrecto");
+		}
+		
 		this.car_precio = car_precio;
 	}
 	public Direccion getCar_envio() {

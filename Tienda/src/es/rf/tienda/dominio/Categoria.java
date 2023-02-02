@@ -1,5 +1,6 @@
 package es.rf.tienda.dominio;
 
+import es.rf.tienda.exception.DomainException;
 import es.rf.tienda.util.Validator;
 
 /**
@@ -53,9 +54,14 @@ public class Categoria {
 	
 	/**
 	 * Setter para el nombre de categoria
+	 * @throws DomainException 
 	 * 
 	 */
-	public void setCat_nombre(String cat_nombre) {
+	public void setCat_nombre(String cat_nombre) throws DomainException {
+		if(!Validator.cumpleLongitud(cat_nombre,5,50)) {
+			throw new DomainException("Nombre con longitud incorrecto");
+		}
+		
 		this.cat_nombre = cat_nombre;
 	}
 	
@@ -69,9 +75,14 @@ public class Categoria {
 	
 	/**
 	 * setter para la descripcion de categoria
+	 * @throws DomainException 
 	 * 
 	 */
-	public void setCat_descripcion(String cat_descripcion) {
+	public void setCat_descripcion(String cat_descripcion) throws DomainException {
+		if(!Validator.cumpleLongitud(cat_descripcion,0,200)) {
+			throw new DomainException("Descripcion con longitud incorrecto");
+		}
+		
 		this.cat_descripcion = cat_descripcion;
 	}
 

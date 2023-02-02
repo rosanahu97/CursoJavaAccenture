@@ -1,6 +1,7 @@
 package es.rf.tienda.util;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 
 
@@ -54,6 +55,10 @@ public class Validator {
 	 */
 	private final static String CODIGO_PATTERN ="^[A-Z]{2}[0-9]{3}";
 
+	/**
+	 *Patron para validar el precio de producto
+	 */
+	private final static String PRECIO_PATTERN ="\\d+\\.\\d{2}";
 	/* ***************************************************************************************
 	 * NOMBRE: isAlfanumeric                                                                 *
 	 * 
@@ -89,6 +94,27 @@ public class Validator {
 	 * **************************************************************************************/
 	public static boolean isCodigoValido(String texto){
 		return !isVacio(texto)&&texto.matches(CODIGO_PATTERN);
+	}
+	/**
+	 * Permite verificar que el precio recibido es correcto
+	 * @param precio en tipo String
+	 * @return true,si el precio solo contiene dos decimales, 
+	 * 			y false en caso contrario
+	 * 
+	 * */
+	public static boolean isPrecioCorrecto(String precio){
+		return precio.matches(PRECIO_PATTERN);
+	}
+	/**
+	 * Permite verificar que el estado recibido es correcto o no
+	 * @param estado
+	 * @return true,si el valor recibido es igual q A o B 
+	 * 			y false en caso contrario
+	 * 
+	 * */
+	
+	public static boolean isEstadoCorrecto(char estado) {
+		return estado=='A' || estado =='B';
 	}
 	
 	public static boolean isVacio( String prueba ){
@@ -275,7 +301,7 @@ public class Validator {
 	 */
 	
 	public static boolean valDateMin(LocalDate fecha, LocalDate min){
-		return fecha.isAfter(min);
+		return fecha.isAfter(min) || fecha.isEqual(min);
 		
 	}
 	
@@ -286,7 +312,7 @@ public class Validator {
 	 * @return
 	 */
 	public static boolean valDateMax(LocalDate fecha, LocalDate max){
-		return fecha.isBefore(max);
+		return fecha.isBefore(max) || fecha.isEqual(max);
 		
 	}	
 	
@@ -301,6 +327,17 @@ public class Validator {
 		
 		
 	}
+	/**
+	 * esFechaActual
+	 * Recibe un LocalDate y comprueba si coincide con la fecha actual o no
+	 * @param fecha
+	 * @return
+	 */
+	public static boolean esFechaActual(LocalDate fecha){
+		return fecha.equals(LocalDate.now());
+				
+	}
+
 	
 	/**
 	 * Nombre esPasswordValida

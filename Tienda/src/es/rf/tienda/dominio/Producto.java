@@ -1,6 +1,9 @@
 package es.rf.tienda.dominio;
 
 import java.time.LocalDate;
+
+import es.rf.tienda.exception.DomainException;
+import es.rf.tienda.util.Validator;
 /**
  * 
  * Nombre		Producto
@@ -36,15 +39,24 @@ public class Producto {
 		return id_producto;
 	}
 
-	public void setId_producto(String id_producto) {
+	public void setId_producto(String id_producto) throws DomainException {
+		if(!Validator.isCodigoValido(id_producto)) {
+			throw new DomainException("Codigo producto formato incorrecto");
+		}	
 		this.id_producto = id_producto;
+		
+		
 	}
 
 	public String getPro_descripcion() {
 		return pro_descripcion;
 	}
 
-	public void setPro_descripcion(String pro_descripcion) {
+	public void setPro_descripcion(String pro_descripcion) throws DomainException {
+		if(!Validator.cumpleLongitud(pro_descripcion, 0,100 )) {
+			throw new DomainException("La descripcion no puede superar 100 caracteres");
+		}
+		
 		this.pro_descripcion = pro_descripcion;
 	}
 
@@ -52,7 +64,10 @@ public class Producto {
 		return pro_desLarga;
 	}
 
-	public void setPro_desLarga(String pro_desLarga) {
+	public void setPro_desLarga(String pro_desLarga) throws DomainException {
+		if(!Validator.cumpleLongitud(pro_descripcion, 0,200 )) {
+			throw new DomainException("La descripcion larga no puede superar 200 caracteres");
+		}
 		this.pro_desLarga = pro_desLarga;
 	}
 
@@ -60,7 +75,11 @@ public class Producto {
 		return pro_precio;
 	}
 
-	public void setPro_precio(double pro_precio) {
+	public void setPro_precio(double pro_precio) throws DomainException {
+		String precio = String.valueOf(pro_precio);
+		if(!Validator.isPrecioCorrecto(precio)) {
+			throw new DomainException("Precio incorrecto");
+		}
 		this.pro_precio = pro_precio;
 	}
 
@@ -76,7 +95,11 @@ public class Producto {
 		return pro_fecRepos;
 	}
 
-	public void setPro_fecRepos(LocalDate pro_fecRepos) {
+	public void setPro_fecRepos(LocalDate pro_fecRepos) throws DomainException {
+		if(!Validator.valDateMin(pro_fecRepos, LocalDate.now())) {
+			throw new DomainException("Fecha prevista reposicion incorrecta");
+		}
+		
 		this.pro_fecRepos = pro_fecRepos;
 	}
 
@@ -84,7 +107,12 @@ public class Producto {
 		return pro_fecActi;
 	}
 
-	public void setPro_fecActi(LocalDate pro_fecActi) {
+	public void setPro_fecActi(LocalDate pro_fecActi) throws DomainException {
+		
+		if(!Validator.valDateMin(pro_fecActi, LocalDate.now())) {
+			throw new DomainException("Fecha activacion incorrecta");
+		}
+		
 		this.pro_fecActi = pro_fecActi;
 	}
 
@@ -92,7 +120,15 @@ public class Producto {
 		return pro_fecDesacti;
 	}
 
-	public void setPro_fecDesacti(LocalDate pro_fecDesacti) {
+	public void setPro_fecDesacti(LocalDate pro_fecDesacti) throws DomainException {
+		
+		if(!Validator.valDateMin(pro_fecRepos, LocalDate.now())) {
+			throw new DomainException("Fecha desactivacion incorrecta");
+		}
+		if(getPro_fecActi()!=null && !Validator.valDateMin(pro_fecDesacti, getPro_fecActi()) ) {
+			throw new DomainException("Fecha desactivacion incorrecta");
+		}
+		
 		this.pro_fecDesacti = pro_fecDesacti;
 	}
 
@@ -132,7 +168,12 @@ public class Producto {
 		return pro_usoRecomendado;
 	}
 
-	public void setPro_usoRecomendado(String pro_usoRecomendado) {
+	public void setPro_usoRecomendado(String pro_usoRecomendado) throws DomainException {
+		
+		if(!Validator.cumpleLongitud(pro_usoRecomendado, 0,200 )) {
+			throw new DomainException("EL texto no puede superar 200 caracteres");
+		}
+		
 		this.pro_usoRecomendado = pro_usoRecomendado;
 	}
 
@@ -172,7 +213,10 @@ public class Producto {
 		return pro_stat;
 	}
 
-	public void setPro_stat(char pro_stat) {
+	public void setPro_stat(char pro_stat) throws DomainException {
+		if(!Validator.isEstadoCorrecto(pro_stat)) {
+			throw new DomainException("Estado incorrecto");
+		}
 		this.pro_stat = pro_stat;
 	}
 	
