@@ -3,7 +3,6 @@ package curso.s3.juegoCartas;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class PruebaCartas {
 	static int CARTAS =5;
@@ -13,6 +12,7 @@ public class PruebaCartas {
 	
 	
 	public static void main(String[] args) {
+		
 		Paquete paq = new Paquete(TIPO_CARTA);
 		//paq.mostarCartas();
 		cartas = paq.getCartas();
