@@ -25,8 +25,6 @@ public class PruebaCartas {
 		
 	}
 	
-	
-	
 	/**
 	 *Metodo para analizar los jugadores
 	 *@param un conjunto de jugadores 
@@ -71,18 +69,22 @@ public class PruebaCartas {
 						System.out.println(j.getNombre()+" tiene escalera");
 					}else {
 						numDescarte =5;
+						descarte(cartas,j,numDescarte,map1_numero);
 					}break;
 	
 			case 4:	System.out.println(j.getNombre()+" tiene una pareja");
 					numDescarte = 3;
+					descarte(cartas,j,numDescarte,map1_numero);
 					break;
 			case 3:	if(isTrio(map1_numero)) {
 						System.out.print(j.getNombre()+" tiene trio ");
 						numDescarte = 2;
+						descarte(cartas,j,numDescarte,map1_numero);
 					}else {
 						//si no es trio,entonces tiene que ser doble pareja
 						System.out.print(j.getNombre()+" tiene doble pareja");
 						numDescarte = 1;
+						descarte(cartas,j,numDescarte,map1_numero);
 					}break;
 					
 			case 2:System.out.println(j.getNombre()+" tiene poker o fill");
@@ -94,6 +96,29 @@ public class PruebaCartas {
 	}
 	
 	
+
+	private static void descarte(Set<Carta> car,Jugador j, int num, TreeMap<Integer, Integer> map) {
+		Iterator<Carta> itCarta = car.iterator();
+		switch(num) {
+			case 5: j.setMano(new HashSet<>());
+					repartirCarta(itCarta, j, 5);break;
+			case 3:	eliminarCartaMano(j,3,map);
+					repartirCarta(itCarta, j, 3);break;
+			case 2:	eliminarCartaMano(j,2,map);
+					repartirCarta(itCarta, j, 2);break;
+			case 1: eliminarCartaMano(j,1,map);
+					repartirCarta(itCarta, j, 1);break;
+			default:break;
+		}
+		
+	}
+
+
+
+	private static void eliminarCartaMano(Jugador j, int i, TreeMap<Integer, Integer> map) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private static boolean isTrio(TreeMap<Integer, Integer> map) {
 		for (Map.Entry m:map.entrySet()) {
@@ -138,26 +163,36 @@ public class PruebaCartas {
 		for(int i =0;i<CARTAS;i++) {
 			for(Iterator<Jugador> itJugador = jug.iterator(); itJugador.hasNext();) {
 				if(itCarta.hasNext()) {
-					repartirCarta(itCarta.next(),itJugador.next());
-					itCarta.remove();
+					repartirCarta(itCarta,itJugador.next(),1);
 
+				}else {
+					System.out.println("Carta vacia");
 				}
 			}
 				
 		}
 	}
 	
+	private static void repartirCarta(Iterator<Carta> itCarta, Jugador jug, int i) {
+		int contador=0;
+		if(itCarta.hasNext()&& contador<i) {
+			Set<Carta> cartas = jug.getMano();
+			cartas.add(itCarta.next());
+			itCarta.remove();
+			jug.setMano(cartas);
+			i++;
+		}
+		
+	}
+
+
+
 	/**
 	 * Metodo para repartir una carta 
 	 * @param jug el jugador quien recibe la carta
 	 * @param car la carta que va a recibir 
 	 */	
-	private static void repartirCarta(Carta car, Jugador jug) {
-		Set<Carta> cartas = jug.getMano();
-		cartas.add(car);
-		jug.setMano(cartas);
-		
-	}
+	
 	/**
 	 * Metodo para crear los jugadores del partido
 	 * @return devuelve un conjunto de jugadores
