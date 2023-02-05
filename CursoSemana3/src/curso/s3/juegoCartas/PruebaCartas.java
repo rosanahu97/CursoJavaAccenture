@@ -21,7 +21,11 @@ public class PruebaCartas {
 		jugadores=crearJugadores();
 		repartirCartas(cartas,jugadores);
 		visualizar(jugadores);
+		System.out.println("***********Analizar los jugadores**********");
 		analizarJugador(jugadores);
+		//visualizar los jugadores despues del descarte
+		System.out.println("***********Visualizar los jugadores despues del descarte**********");
+		visualizar(jugadores);
 		
 	}
 	
@@ -40,11 +44,13 @@ public class PruebaCartas {
 
 	private static void analizarJugador(Jugador j) {
 		Set<Carta> cartas = j.getMano();
+		int numDescarte;
+		//analizamos que numero y que palo tienen el juegador 
 		TreeMap<Integer,Integer> map1_numero = new TreeMap<Integer,Integer>();
 		TreeMap<String,Integer> map2_palo = new TreeMap<String,Integer>();
+			
 		
-		int numDescarte;
-		
+		//almacenamos en clave el numero de la carta y en valor el numero de repeticiones.
 		for(Carta c :cartas) {
 			if(map1_numero.get(c.getNumero())==null) {
 				map1_numero.put(c.getNumero(), 1);
@@ -53,7 +59,7 @@ public class PruebaCartas {
 				map1_numero.put(c.getNumero(), ++res);
 			}
 		}
-		
+		//almacenamos en clave el palo de la carta y en valor el numero de repeticiones.
 		for(Carta c :cartas) {
 			if(map2_palo.get(c.getPalo())==null) {
 				map2_palo.put(c.getPalo(), 1);
@@ -62,64 +68,127 @@ public class PruebaCartas {
 				map2_palo.put(c.getPalo(), ++res);
 			}
 		}
+		//analizamos las cartas que tiene en la mano
 		switch(map1_numero.size()) {
+			//cuando tiene 5 carta diferentes
 			case 5: if(map2_palo.size()==1 && isEscalera(map1_numero)) {
 						System.out.println(j.getNombre()+" tiene escalera real o de color");
 					}else if(isEscalera(map1_numero)) {
 						System.out.println(j.getNombre()+" tiene escalera");
 					}else {
 						numDescarte =5;
-						descarte(cartas,j,numDescarte,map1_numero);
+						System.out.println("------Descartes "+j.getNombre()+" ------");
+						descarte(j,numDescarte,map1_numero);
 					}break;
-	
+			//cuando tiene 4 carta diferentes
 			case 4:	System.out.println(j.getNombre()+" tiene una pareja");
 					numDescarte = 3;
-					descarte(cartas,j,numDescarte,map1_numero);
+					System.out.println("------Descartes "+j.getNombre()+" ------");
+					descarte(j,numDescarte,map1_numero);
 					break;
+			//cuando tiene 3 carta diferentes
 			case 3:	if(isTrio(map1_numero)) {
 						System.out.print(j.getNombre()+" tiene trio ");
 						numDescarte = 2;
-						descarte(cartas,j,numDescarte,map1_numero);
+						System.out.println("------Descartes "+j.getNombre()+" ------");
+						descarte(j,numDescarte,map1_numero);
 					}else {
 						//si no es trio,entonces tiene que ser doble pareja
-						System.out.print(j.getNombre()+" tiene doble pareja");
+						System.out.println(j.getNombre()+" tiene doble pareja");
 						numDescarte = 1;
-						descarte(cartas,j,numDescarte,map1_numero);
+						System.out.println("------Descartes "+j.getNombre()+" ------");
+						descarte(j,numDescarte,map1_numero);
 					}break;
-					
+			//cuando tiene 2 carta diferentes		
 			case 2:System.out.println(j.getNombre()+" tiene poker o fill");
 					numDescarte = 0;
 					break;
-			default: break;
+			//no deberia existir otros casos, seria un error
+			default: System.out.println("Error");break;
 		}	
 
 	}
 	
-	
+	/**
+	 * Metodo para descartar cartas
+	 * @param j jugador
+	 * @param num numero de descarte
+	 * @param map almacena el numero de cartas que tiene y su repeticion 
+	 * 
+	*/
 
-	private static void descarte(Set<Carta> car,Jugador j, int num, TreeMap<Integer, Integer> map) {
-		Iterator<Carta> itCarta = car.iterator();
+	private static void descarte(Jugador j, int num, TreeMap<Integer, Integer> map) {
+		
+		Iterator<Carta> itCarta = cartas.iterator();
+		Set<Carta> cartaMano = j.getMano();
+		
 		switch(num) {
-			case 5: j.setMano(new HashSet<>());
+			//eliminar todas las cartas de la mano
+			case 5: System.out.println("El jugador "+j.getNombre()+" ha decidido descartar todas las cartas  ");
+					j.setMano(new HashSet<>());
 					repartirCarta(itCarta, j, 5);break;
-			case 3:	eliminarCartaMano(j,3,map);
-					repartirCarta(itCarta, j, 3);break;
-			case 2:	eliminarCartaMano(j,2,map);
+			//tengo una pareja en la mano
+
+			case 3:	eliminarCartas(cartaMano,map,2);			
+					repartirCarta(itCarta, j, 3);break;				
+			
+			//tengo un trio en la mano
+			case 2:	eliminarCartas(cartaMano,map,3);
 					repartirCarta(itCarta, j, 2);break;
-			case 1: eliminarCartaMano(j,1,map);
+			
+			//tengo un doble pareje en la mano
+			case 1: eliminarCartas(cartaMano,map,2);
 					repartirCarta(itCarta, j, 1);break;
+			
 			default:break;
 		}
 		
 	}
+	/**
+	 * Metodo para descartar las cartas que tiene en la mano
+	 * @param cartaMano las cartas que tiene en la mano
+	 * @param repeticion el numero de repeticiones
+	 * @param map almacena el numero de carta  y su repeticion 
+	 * 
+	*/
 
-
-
-	private static void eliminarCartaMano(Jugador j, int i, TreeMap<Integer, Integer> map) {
-		// TODO Auto-generated method stub
+	private static void eliminarCartas(Set<Carta> cartaMano, TreeMap<Integer, Integer> map, int repeticion) {
+		
+		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {	
+			if(entry.getValue()<repeticion) {
+				Carta cartaAEliminar =encontrarCarta(entry.getKey(),cartaMano);
+				cartaMano.remove(cartaAEliminar);
+				System.out.println(cartaAEliminar.toString());
+			}
+		}
 		
 	}
 
+	/**
+	 * Metodo para encontrar una carta concreta sabiendo su numero
+	 * @param value el numero de la carta
+	 * @param cartaMano las cartas que tiene el jugador
+	 *@return devuelve la carta encontrada
+	 * */
+	private static Carta encontrarCarta(Integer value, Set<Carta> cartaMano) {
+		boolean encontrado = false;
+		Carta res = new Carta();
+		
+			for (Iterator<Carta> it = cartaMano.iterator(); it.hasNext()&&!encontrado; ) {
+		       Carta c = it.next();
+		        if (c.getNumero() == value) {
+		        	res = c;
+		        	encontrado=true;
+		        }
+		    }		
+		return res;
+	}
+
+	/**
+	 * Metodo para comprobar si el jugador tiene trio en la mano o no 
+	 * @param map el numero que tiene en la mano
+	 * @return true si el jugador tiene un trio en la mano false en caso contrario
+	 * */
 	private static boolean isTrio(TreeMap<Integer, Integer> map) {
 		for (Map.Entry m:map.entrySet()) {
 			int valor =(int)m.getValue();
@@ -130,7 +199,11 @@ public class PruebaCartas {
 		return false;
 	}
 
-
+	/**
+	 * Metodo para comprobar si el jugador tiene escalera en la mano o no 
+	 * @param map el numero que tiene en la mano
+	 * @return true si el jugador tiene una escalera en la mano false en caso contrario
+	 * */
 
 	private static boolean isEscalera(TreeMap<Integer, Integer> map) {
 		int primeroNumero = map.firstKey();
@@ -154,7 +227,7 @@ public class PruebaCartas {
 		
 	}
 	/**
-	 * Metodo para repartir las cartas 
+	 * Metodo para repartir las cartas a los jugadores 
 	 * @param jug el conjunto jugadores
 	 * @param car el conjunto cartas
 	 */
@@ -172,27 +245,25 @@ public class PruebaCartas {
 				
 		}
 	}
-	
+	/**
+	 * Metodo para repartir determinado numero de cartas 
+	 * @param jug el jugadores que va a recibir la carta
+	 * @param i determina cuantas cartas va a recibir
+	 * @param itCarta iterador de la carta 
+	 */
 	private static void repartirCarta(Iterator<Carta> itCarta, Jugador jug, int i) {
 		int contador=0;
-		if(itCarta.hasNext()&& contador<i) {
-			Set<Carta> cartas = jug.getMano();
-			cartas.add(itCarta.next());
+		Set<Carta> cartaMano = jug.getMano();
+		
+		while(itCarta.hasNext()&& contador<i) {
+			cartaMano.add(itCarta.next());
 			itCarta.remove();
-			jug.setMano(cartas);
-			i++;
+			contador++;
 		}
+		jug.setMano(cartaMano);
 		
 	}
 
-
-
-	/**
-	 * Metodo para repartir una carta 
-	 * @param jug el jugador quien recibe la carta
-	 * @param car la carta que va a recibir 
-	 */	
-	
 	/**
 	 * Metodo para crear los jugadores del partido
 	 * @return devuelve un conjunto de jugadores
