@@ -81,7 +81,6 @@ public class CountryDao implements CountryDaoI{
 		ps.setString(1, country.getCountry_name());
 		ps.setInt(2, country.getRegion_id());
 		ps.setString(3, country.getCountry_id());
-		System.out.println(ps.getParameterMetaData().toString());
 
 		return ps.executeUpdate();
 	}
