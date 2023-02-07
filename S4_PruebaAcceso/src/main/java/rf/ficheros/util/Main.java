@@ -38,6 +38,9 @@ public class Main {
 		System.out.println("fila eliminada: "+del2);	
 		System.out.println("-----Insertar un pais -----");
 		Country i1=new Country();
+		i1.setCountry_id("RH");
+		i1.setCountry_name("Prueba insertar");
+		i1.setRegion_id(10);
 		i1=cc.insert(a1);
 		System.out.println(i1.toString());
 
