@@ -76,10 +76,7 @@ public class Producto {
 	}
 
 	public void setPro_precio(double pro_precio) throws DomainException {
-		String precio = String.valueOf(pro_precio);
-		if(!Validator.isPrecioCorrecto(precio)) {
-			throw new DomainException("Precio incorrecto");
-		}
+
 		this.pro_precio = pro_precio;
 	}
 

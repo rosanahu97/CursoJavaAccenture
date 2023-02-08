@@ -55,10 +55,7 @@ public class Validator {
 	 */
 	private final static String CODIGO_PATTERN ="^[A-Z]{2}[0-9]{3}";
 
-	/**
-	 *Patron para validar el precio de producto
-	 */
-	private final static String PRECIO_PATTERN ="\\d+\\.\\d{2}";
+	
 	/* ***************************************************************************************
 	 * NOMBRE: isAlfanumeric                                                                 *
 	 * 
@@ -95,16 +92,7 @@ public class Validator {
 	public static boolean isCodigoValido(String texto){
 		return !isVacio(texto)&&texto.matches(CODIGO_PATTERN);
 	}
-	/**
-	 * Permite verificar que el precio recibido es correcto
-	 * @param precio en tipo String
-	 * @return true,si el precio solo contiene dos decimales, 
-	 * 			y false en caso contrario
-	 * 
-	 * */
-	public static boolean isPrecioCorrecto(String precio){
-		return precio.matches(PRECIO_PATTERN);
-	}
+	
 	/**
 	 * Permite verificar que el estado recibido es correcto o no
 	 * @param estado

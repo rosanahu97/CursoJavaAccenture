@@ -40,9 +40,6 @@ class ValidatorTest {
 	final static String CODIGO="IN321";
 	final static String CODIGO_ERROR="IN3122";
 	final static String CODIGO_ERROR_2="in312";
-	final static String PRECIO="1.25";
-	final static String PRECIO_ERROR="134";
-	final static String PRECIO_ERROR_2="134.433";
 	final static char ESTADO ='A';
 	final static char ESTADO_1 ='B';
 	final static char ESTADO_ERROR ='a';
@@ -64,18 +61,7 @@ class ValidatorTest {
 	void testIsEstadoERROR_1() {
 		Assertions.assertFalse(Validator.isEstadoCorrecto(ESTADO_ERROR_1));
 	}
-	@Test
-	void testIsPrecioCorrecto() {
-		Assertions.assertTrue(Validator.isPrecioCorrecto(PRECIO));
-	}
-	@Test
-	void testIsPrecioCorrectoError() {
-		Assertions.assertFalse(Validator.isPrecioCorrecto(PRECIO_ERROR));
-	}
-	@Test
-	void testIsPrecioCorrectoError2() {
-		Assertions.assertFalse(Validator.isPrecioCorrecto(PRECIO_ERROR_2));
-	}
+
 	
 	@Test
 	void testIsAlfanumeric() {
